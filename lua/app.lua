@@ -8,9 +8,33 @@ function connect(to)
   client = Client(to, "inspector")
   if client:connect({dummy={dummy=0}}) == true then
     app = App(client)
+    client.client:set_audio_callback(onAudio)
   else
     client = nil
     error = "Failed to connect."
+  end
+end
+
+
+local tracks = {}
+function onAudio(trackId, audio)
+  local track = tracks[trackId]
+  if track == nil then
+    track = {
+      xs = ffi.new("float[?]", 960),
+      ysi = ffi.new("short[?]", 960),
+      ys = ffi.new("float[?]", 960),
+      count = 960
+    }
+    for i = 0,track.count do
+      track.xs[i] = i
+    end
+    tracks[trackId] = track
+  end
+
+  ffi.copy(track.ysi, audio)
+  for i = 0,track.count do
+    track.ys[i] = track.ysi[i]
   end
 end
 
@@ -29,6 +53,7 @@ function draw(ig)
   else
     client.client:poll()
     drawEntities(ig)
+    drawTracks(ig)
   end
 end
 
@@ -49,6 +74,29 @@ function drawEntities(ig)
     ig.Text(entity.id); ig.NextColumn()
     ig.Text(string.format("%.2f %.2f %.2f", v[1], v[2], v[3])); ig.NextColumn()
     ig.Button("Show"); ig.NextColumn()
+  end
+
+  ig.End()
+end
+
+function drawTracks(ig)
+  ig.Begin("Audio tracks")
+
+  ig.Columns(2, "audio")
+  ig.Separator()
+  ig.Text("ID"); ig.NextColumn()
+  ig.Text("Spectrum"); ig.NextColumn()
+  ig.Separator();
+
+  for tid, track in pairs(tracks) do
+    ig.Text(tostring(tid)); ig.NextColumn()
+
+    ig.ImPlot_SetNextPlotLimits(0, track.count, -32768, 32767, 0)
+    ig.ImPlot_BeginPlot("", "Time", "Value", ig.ImVec2(-1,-1))
+      ig.ImPlot_PlotLine("audio", track.xs, track.ys, track.count);
+    ig.ImPlot_EndPlot()
+    ig.NextColumn()
+    
   end
 
   ig.End()
