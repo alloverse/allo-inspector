@@ -11,5 +11,7 @@ add_subdirectory(lib/luajit)
 add_subdirectory(lib/luajit-glfw)
 add_subdirectory(lib/luajit-imgui)
 
+include_directories(lib/luajit/src)
+
 add_executable (alloinspector src/main.c)
 target_link_libraries (alloinspector allonet libluajit glfw cimgui_glfw)
