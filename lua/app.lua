@@ -19,21 +19,22 @@ end
 local tracks = {}
 function onAudio(trackId, audio)
   local track = tracks[trackId]
+  local sampleCount = #audio / 2
   if track == nil then
     track = {
-      xs = ffi.new("float[?]", 960),
-      ysi = ffi.new("short[?]", 960),
-      ys = ffi.new("float[?]", 960),
-      count = 960
+      xs = ffi.new("float[?]", sampleCount),
+      ysi = ffi.new("short[?]", sampleCount),
+      ys = ffi.new("float[?]", sampleCount),
+      count = sampleCount
     }
-    for i = 0,track.count do
+    for i = 0,track.count-1 do
       track.xs[i] = i
     end
     tracks[trackId] = track
   end
 
   ffi.copy(track.ysi, audio)
-  for i = 0,track.count do
+  for i = 0,track.count-1 do
     track.ys[i] = track.ysi[i]
   end
 end
@@ -81,24 +82,14 @@ end
 
 function drawTracks(ig)
   ig.Begin("Audio tracks")
-
-  ig.Columns(2, "audio")
-  ig.Separator()
-  ig.Text("ID"); ig.NextColumn()
-  ig.Text("Spectrum"); ig.NextColumn()
-  ig.Separator();
-
   for tid, track in pairs(tracks) do
-    ig.Text(tostring(tid)); ig.NextColumn()
-
     ig.ImPlot_SetNextPlotLimits(0, track.count, -32768, 32767, 0)
-    ig.ImPlot_BeginPlot("", "Time", "Value", ig.ImVec2(-1,-1))
-      ig.ImPlot_PlotLine("audio", track.xs, track.ys, track.count);
-    ig.ImPlot_EndPlot()
-    ig.NextColumn()
-    
+    if ig.ImPlot_BeginPlot("Track #"..tostring(tid), "Time", "Value", ig.ImVec2(-1,200)) then
+      ig.ImPlot_PlotLine("audio", track.xs, track.ys, track.count)
+      ig.ImPlot_EndPlot()
+    end
+    ig.Separator();
   end
-
   ig.End()
 end
 
