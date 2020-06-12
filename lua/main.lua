@@ -1,6 +1,22 @@
-package.path = package.path .. ';lib/luajit-glfw/?.lua;lib/luajit-imgui/lua/?.lua;lua/?.lua'
+-- setup alloverse
+local srcDir = "lua"
+local libDir = "lib"
+package.cpath = string.format("%s;%s/?.so;%s/?.dylib;%s/?.dll", package.cpath, srcDir, srcDir, srcDir)
+package.path = string.format(
+    "%s;%s/?.lua;%s/alloui/lua/?.lua;%s/alloui/lib/cpml/?.lua;%s/alloui/lib/pl/lua/?.lua",
+    package.path,
+    srcDir,
+    libDir,
+    libDir,
+    libDir
+)
 
--- setup
+require("liballonet")
+Client = require("alloui.client")
+ui = require("alloui.ui")
+
+-- setup Dear IMGUI
+package.path = package.path .. ';lib/luajit-glfw/?.lua;lib/luajit-imgui/lua/?.lua;lua/?.lua'
 local ffi = require "ffi"
 local lj_glfw = require"glfw"
 local gllib = require"gl"
