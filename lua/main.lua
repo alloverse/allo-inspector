@@ -38,6 +38,7 @@ ig_impl:Init(window, true)
 
 local app = require("app")
 
+local showdemo = ffi.new("bool[1]",false)
 while not window:shouldClose() do
     lj_glfw.pollEvents()
     gl.glClearColor(0.45, 0.55, 0.60, 1.0)
@@ -45,6 +46,8 @@ while not window:shouldClose() do
     ig_impl:NewFrame()
     app.draw(ig)
     
+    --ig.ShowDemoWindow(showdemo)
+
     ig_impl:Render()
     window:swapBuffers()
 end
