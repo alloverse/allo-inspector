@@ -1,0 +1,15 @@
+[submodule "lib/alloui"]
+	path = lib/alloui
+	url = https://github.com/alloverse/alloui-lua.git
+[submodule "lib/allonet"]
+	path = lib/allonet
+	url = https://github.com/alloverse/allonet
+[submodule "lib/luajit"]
+	path = lib/luajit
+	url = https://github.com/WohlSoft/LuaJIT.git
+[submodule "lib/luajit-imgui"]
+	path = lib/luajit-imgui
+	url = https://github.com/sonoro1234/LuaJIT-ImGui
+[submodule "lib/luajit-glfw"]
+	path = lib/luajit-glfw
+	url = https://github.com/sonoro1234/LuaJIT-GLFW
