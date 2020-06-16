@@ -15,7 +15,6 @@ local status = pcall(require, "liballonet")
 if status == false then
     require("allonet")
 end
-Client = require("alloui.client")
 ui = require("alloui.ui")
 
 -- setup Dear IMGUI
