@@ -8,6 +8,8 @@ set(IMPL_OPENGL2 ON CACHE BOOL "" FORCE)
 set(IMPL_OPENGL3 ON CACHE BOOL "" FORCE)
 set(IMPL_GLFW ON CACHE BOOL "" FORCE)
 set(IMPL_EXTRAS ON CACHE BOOL "" FORCE)
+
+# this supposedly puts all the DLLs in the root build/ folder, so that the exe can find them.
 set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 
