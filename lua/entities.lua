@@ -1,5 +1,7 @@
+local ffi = require("ffi")
 
 function draw(w, ig)
+  ig.SetNextWindowSize(ig.ImVec2(400,400), ffi.C.ImGuiCond_FirstUseEver)
   ig.Begin("Entities in "..w.client.placename)
 
   ig.Columns(3, "entities")

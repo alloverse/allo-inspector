@@ -6,7 +6,6 @@ function connect(w, to)
   w.client = Client(to, "inspector")
   if w.client:connect({dummy={dummy=0}}) == true then
     w.app = App(w.client)
-    w.client.client:set_audio_callback(onAudio)
   else
     w.client = nil
     w.error = "Failed to connect."

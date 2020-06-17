@@ -1,3 +1,4 @@
+local ffi = require("ffi")
 
 local buffered_sample_count = 48000
 local bufferskip = 4 -- 48000 points is 4 times too many to render
@@ -32,7 +33,8 @@ end
 
 
 function drawTracks(w, ig)
-  ig.Begin("Audio tracks in"..w.client.placename)
+  ig.SetNextWindowSize(ig.ImVec2(500,200), ffi.C.ImGuiCond_FirstUseEver)
+  ig.Begin("Audio tracks in "..w.client.placename)
   for tid, track in pairs(tracks) do
     ig.ImPlot_SetNextPlotLimits(0, track.count * bufferskip, -32768, 32767, 0)
     if ig.ImPlot_BeginPlot("Track #"..tostring(tid), "Time", "Value", ig.ImVec2(-1,200)) then

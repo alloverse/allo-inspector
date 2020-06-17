@@ -2,6 +2,7 @@ local ffi = require "ffi"
 local connection = require "connection"
 
 function drawConnect(w, ig)
+    ig.SetNextWindowSize(ig.ImVec2(420,120), ffi.C.ImGuiCond_FirstUseEver)
     ig.Begin("Connect")
 
     ig.Text("Input an alloplace:// url to connect to to introspect it.")
