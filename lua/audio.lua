@@ -39,6 +39,7 @@ function drawTracks(w, ig)
     ig.ImPlot_SetNextPlotLimits(0, track.count * bufferskip, -32768, 32767, 0)
     if ig.ImPlot_BeginPlot("Track #"..tostring(tid), "Time", "Value", ig.ImVec2(-1,200)) then
       ig.ImPlot_PlotLine("audio", track.xs, track.ys, track.count)
+      -- todo: DRAW VERTICAL LINE AT track.offset
       ig.ImPlot_EndPlot()
     end
     ig.Separator();
