@@ -5,7 +5,14 @@ local vec3 = require "cpml.vec3"
 
 function drawEntities(w, ig)
   ig.SetNextWindowSize(ig.ImVec2(400,400), ffi.C.ImGuiCond_FirstUseEver)
-  ig.Begin("Entities in "..w.client.placename)
+
+  local open = ffi.new("bool[1]", true)
+  ig.Begin("Entities in "..w.client.placename, open)
+  if open[0] == false then
+    w:closeWindow()
+    ig.End()
+    return
+  end
 
   ig.Columns(5, "entities")
   ig.Separator()

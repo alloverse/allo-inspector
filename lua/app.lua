@@ -22,9 +22,19 @@ end
 
 local windows = {}
 
+function closeWindow(w)
+    for i, x in ipairs(windows) do
+        if x == w then
+            table.remove(windows, i)
+            return
+        end
+    end
+end
+
 function openWindow(w)
     table.insert(windows, w)
     w.openWindow = openWindow
+    w.closeWindow = closeWindow
 end
 
 openWindow(connectWindow())

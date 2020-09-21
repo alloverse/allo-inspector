@@ -4,8 +4,21 @@ local mat4 = require "cpml.mat4"
 
 function drawEntity(w, ig)
   local e = w.client.state.entities[w.eid]
-  ig.SetNextWindowSize(ig.ImVec2(200,400), ffi.C.ImGuiCond_FirstUseEver)
-  ig.Begin(w.eid.." in "..w.client.placename)
+
+  if e == nil then
+    w:closeWindow()
+    return
+  end
+
+  ig.SetNextWindowSize(ig.ImVec2(400,400), ffi.C.ImGuiCond_FirstUseEver)
+
+  local open = ffi.new("bool[1]", true)
+  ig.Begin(w.eid.." in "..w.client.placename, open)
+  if open[0] == false then
+    w:closeWindow()
+    ig.End()
+    return
+  end
 
   local comps = e.components
 

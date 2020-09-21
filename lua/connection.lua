@@ -1,6 +1,7 @@
 local audio = require "audio"
 local entities = require "entities"
 local Client = require("alloui.client")
+local ffi = require("ffi")
 
 function connect(w, to)
   w.client = Client(to, "inspector")
@@ -13,7 +14,14 @@ function connect(w, to)
 end
 
 function drawConn(w, ig)
-    ig.Begin(w.client and w.client.placename or w.url)
+    local open = ffi.new("bool[1]", true)
+    ig.Begin(w.client and w.client.placename or w.url, open)
+    if open[0] == false then
+        w.client.client:disconnect(0)
+        w:closeWindow()
+        ig.End()
+        return
+    end
 
     if w.error then
         ig.Text(error)
