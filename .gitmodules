@@ -13,3 +13,6 @@
 [submodule "lib/luajit-glfw"]
 	path = lib/luajit-glfw
 	url = https://github.com/sonoro1234/LuaJIT-GLFW
+[submodule "cairo/imgui_software_renderer"]
+	path = cairo/imgui_software_renderer
+	url = https://github.com/emilk/imgui_software_renderer.git
